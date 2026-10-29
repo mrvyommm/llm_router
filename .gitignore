@@ -1,0 +1,22 @@
+# Python virtual environment
+.venv/
+
+
+# Python generated files
+__pycache__/
+*.py[cod]
+
+
+# Environment variables and secret codes
+.env
+.env.*
+
+
+# Test coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+
+# Allow an explicitly documented example configuration
+!.env.example
