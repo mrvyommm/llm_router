@@ -1,12 +1,22 @@
 from llm_client import ask_model
 
-def route_request(prompt: str,model_id: str) -> dict:
-    """Execute request using an explicityly selected mmodel"""
+def route_request(
+        prompt: str,
+        model_id: str,
+        request_options: dict | None =  None,
+        ) -> dict:
+    """
+    Execute a request using an explicitly selected model.
+
+    request_options allows callers to pass additional supported
+    LiteLLM request parameters without changing the router.
+    """
 
 
     return ask_model(
         prompt=prompt,
         model_id=model_id,
+        request_options=request_options,
     )
 
 

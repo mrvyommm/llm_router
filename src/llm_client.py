@@ -8,7 +8,11 @@ DEFAULT_MODEL=os.getenv("LLM_MODEL", "ollama/granite4:3b")
 OLLAMA_API_BASE=os.getenv("OLLAMA_API_BASE", "http://localhost:11434")
 
 
-def ask_model(prompt: str, model_id: str | None=None) -> dict:
+def ask_model(
+    prompt: str, 
+    model_id: str | None=None,
+    request_options: dict | None = None,
+    ) -> dict:
     selected_model= model_id or DEFAULT_MODEL
 
     request_args = {
@@ -24,6 +28,18 @@ def ask_model(prompt: str, model_id: str | None=None) -> dict:
 
     if selected_model.startswith("ollama/"):
         request_args["api_base"] = OLLAMA_API_BASE                  
+
+    reserved_options  = {"model", "messages", "api_base"} 
+     
+    if request_options:
+        conflicting_options = reserved_options.intersection(request_options)
+
+        if conflicting_options:
+            raise ValueError(
+                f"Cannot override reserved request options: "
+                f"{sorted(conflicting_options)}"
+            )
+        request_args.update(request_options)
 
 
     response = completion(**request_args)
